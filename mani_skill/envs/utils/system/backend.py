@@ -49,8 +49,12 @@ def parse_sim_and_render_backend(sim_backend: str, render_backend: str) -> Backe
         device = torch.device("cpu")
         sim_device = sapien.Device("cpu")
     elif sim_backend == "physx_cuda":
+        import os
+        #local_rank = int(os.environ["LOCAL_RANK"])
         device = torch.device("cuda")
+        #sim_device = sapien.Device("cuda:"+str(local_rank))
         sim_device = sapien.Device("cuda")
+        #print("Local rank:", local_rank, "Sim device:", sim_device.cuda_id)
     elif sim_backend[:4] == "cuda":
         device = torch.device(sim_backend)
         sim_device = sapien.Device(sim_backend)
